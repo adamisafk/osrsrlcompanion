@@ -7,8 +7,10 @@ import android.widget.LinearLayout;
 
 public class splash extends AppCompatActivity {
 
+    //Variables
     private ViewPager mSlideViewPager;
     private LinearLayout mDotLayout;
+    private SliderAdapter sliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,5 +19,8 @@ public class splash extends AppCompatActivity {
 
         mSlideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
         mDotLayout = (LinearLayout) findViewById(R.id.dotsLayout);
+
+        sliderAdapter = new SliderAdapter(this); //initialize SliderAdapater.java
+        mSlideViewPager.setAdapter(sliderAdapter);
     }
 }

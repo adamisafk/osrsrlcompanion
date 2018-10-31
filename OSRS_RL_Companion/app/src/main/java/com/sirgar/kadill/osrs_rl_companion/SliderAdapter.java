@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-//https://www.youtube.com/watch?v=byLKoPgB7yA&t=10m15s
+//https://www.youtube.com/watch?v=byLKoPgB7yA&t=11m43s
 
 public class SliderAdapter extends PagerAdapter {
 
@@ -25,6 +25,9 @@ public class SliderAdapter extends PagerAdapter {
     //Arrays
     //add splash icons here
     public int[] slide_icons = {
+            R.drawable.splashtitle,
+            R.drawable.splashtitle,
+            R.drawable.splashtitle,
             R.drawable.splashtitle
     };
     //add headings here
@@ -65,10 +68,24 @@ public class SliderAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide_layout, container, false);
 
-        ImageView slideImageView = (ImageView) view.findViewById(R.id.slide_image);
-        TextView slideHeading = (TextView) view.findViewById(R.id.slide_heading);
-        TextView slideDescription = (TextView) view.findViewById(R.id.slide_desc);
+        ImageView slideImageView = view.findViewById(R.id.slide_image);
+        TextView slideHeading = view.findViewById(R.id.slide_heading);
+        TextView slideDescription = view.findViewById(R.id.slide_desc);
+        ImageView slideBackground = view.findViewById(R.id.slide_background);
+
+        slideBackground.setImageResource(slide_backgrounds[position]);
+        slideImageView.setImageResource(slide_icons[position]);
+        slideHeading.setText(slide_headings[position]);
+        slideDescription.setText(slide_descs[position]);
+
+        container.addView(view);
 
         return view;
+    }
+
+    //Method to stop the splash screen was last page has been reached
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((RelativeLayout)object);
     }
 }
