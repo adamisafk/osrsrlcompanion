@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-//https://www.youtube.com/watch?v=byLKoPgB7yA&t=11m43s
-
 public class SliderAdapter extends PagerAdapter {
 
     Context context;
@@ -50,7 +48,8 @@ public class SliderAdapter extends PagerAdapter {
     public int[] slide_backgrounds = {
             R.drawable.splashbg1,
             R.drawable.splashbg2,
-            R.drawable.splashbg3
+            R.drawable.splashbg3,
+            R.drawable.splashbg4
     };
 
     @Override
