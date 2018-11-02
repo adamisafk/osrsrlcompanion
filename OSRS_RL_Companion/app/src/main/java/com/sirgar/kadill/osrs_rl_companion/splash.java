@@ -1,5 +1,6 @@
 package com.sirgar.kadill.osrs_rl_companion;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class splash extends AppCompatActivity {
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
-        //on click listeners for buttons
+        //on click listeners for buttons - will update mCurrentPage to be used for layout changing
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,9 +58,6 @@ public class splash extends AppCompatActivity {
         });
 
     }
-
-    //linking begin button to main activity
-
 
     //method that generates the dots
     public void addDotIndicator(int position) {
@@ -83,6 +81,12 @@ public class splash extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+    //'complicated stuff i cant put into a comment yet' below
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int i, float v, int i1) {
@@ -90,40 +94,96 @@ public class splash extends AppCompatActivity {
         }
 
         @Override
+        //method that changes layout of splash screen depending on the current page
         public void onPageSelected(int i) {
+            accounts accounts = new accounts();
             addDotIndicator(i);
             mCurrentPage = i;
 
-            //this if statement detects if it's the first current page, where it'll hide the back button
-            if (i== 0){
-                mNextBtn.setEnabled(true);
-                mPrevBtn.setEnabled(false);
-                mPrevBtn.setVisibility(View.INVISIBLE);
+            switch (i) {
+                //first page of splash
+                case 0: mNextBtn.setEnabled(true);
+                        mPrevBtn.setEnabled(false);
+                        mPrevBtn.setVisibility(View.INVISIBLE);
 
-                mNextBtn.setText("Next");
-                mPrevBtn.setText("");
-            } else if (i == mDots.length - 1) {
-                //this else if detects if it's the last page and will rename next button
-                mNextBtn.setEnabled(true);
-                mPrevBtn.setEnabled(true);
-                mNextBtn.setVisibility(View.VISIBLE);
+                        mNextBtn.setText("Next");
+                        mPrevBtn.setText("");
+                        break;
+                //second page of splash
+                case 1: mNextBtn.setEnabled(true);
+                        mPrevBtn.setEnabled(true);
+                        mPrevBtn.setVisibility(View.VISIBLE);
 
-                mNextBtn.setText("Begin");
-                mPrevBtn.setText("Back");
-            } else {
-                //if page isn't on first or last, show both buttons normally
-                mNextBtn.setEnabled(true);
-                mPrevBtn.setEnabled(true);
-                mPrevBtn.setVisibility(View.VISIBLE);
+                        mNextBtn.setText("Connect");
+                        mPrevBtn.setText("Back");
+                        break;
+                //third page of splash
+                case 2:
+                        mNextBtn.setEnabled(true);
+                        mPrevBtn.setEnabled(true);
+                        mPrevBtn.setVisibility(View.VISIBLE);
 
-                mNextBtn.setText("Next");
-                mPrevBtn.setText("Back");
+                        mNextBtn.setText("Add Account");
+                        mPrevBtn.setText("Back");
+
+                        //makes the next button open the add osrs name dialog
+                        mNextBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                osrsNameDialog osrsNameDialog = new osrsNameDialog();
+                                osrsNameDialog.show(getSupportFragmentManager(), "osrs dialog");
+                            }
+                        });
+                        break;
+                //last page of splash
+                case 3:
+                    accounts accounts1 = new accounts();
+                    if (accounts1.checkName()) {
+                        mNextBtn.setEnabled(true);
+                        mPrevBtn.setEnabled(true);
+                        mNextBtn.setVisibility(View.VISIBLE);
+
+                        mNextBtn.setText("Begin");
+                        mPrevBtn.setText("Back");
+
+                        //makes begin button link to main activity
+                        mNextBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(splash.this, MainActivity.class));
+                            }
+                        });
+                    } else {
+                        mSlideViewPager.setCurrentItem(mCurrentPage - 1);
+                    }
+
+                    break;
+                //in case something goes wrong
+                default:
+                        mNextBtn.setEnabled(true);
+                        mPrevBtn.setEnabled(true);
+                        mPrevBtn.setVisibility(View.VISIBLE);
+
+                        mNextBtn.setText("Next");
+                        mPrevBtn.setText("Back");
+
+                        //resets the function of the button
+                        mNextBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+                            }
+                        });
+                        break;
+
             }
         }
 
+        //even though it's empty, don't delete it. its needed for some reason
         @Override
         public void onPageScrollStateChanged(int i) {
 
         }
+
     };
 }

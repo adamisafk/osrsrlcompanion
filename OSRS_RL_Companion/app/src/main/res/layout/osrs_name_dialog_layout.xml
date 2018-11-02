@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/usernameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="OSRS Login Email/Username"/>
+
+    <TextView
+        android:id="@+id/beforeNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accounts created BEFORE 2010 uses their username as their login."
+        android:layout_below="@+id/usernameField"/>
+
+    <TextView
+        android:id="@+id/afterNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accounts created AFTER 2010 uses their first registered email as their login."
+        android:layout_below="@id/beforeNote"
+        android:paddingTop="5dp"/>
+
+</RelativeLayout>
