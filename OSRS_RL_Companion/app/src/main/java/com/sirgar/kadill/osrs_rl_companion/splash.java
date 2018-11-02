@@ -58,6 +58,9 @@ public class splash extends AppCompatActivity {
 
     }
 
+    //linking begin button to main activity
+
+
     //method that generates the dots
     public void addDotIndicator(int position) {
         mDots = new TextView[4]; //Update this if max no. of slides change
