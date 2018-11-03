@@ -87,38 +87,58 @@ public class splash extends AppCompatActivity {
 
 
     //'complicated stuff i cant put into a comment yet' below
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i1) {
+    ViewPager.OnPageChangeListener viewListener;
 
-        }
+    {
+        viewListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
 
-        @Override
-        //method that changes layout of splash screen depending on the current page
-        public void onPageSelected(int i) {
-            accounts accounts = new accounts();
-            addDotIndicator(i);
-            mCurrentPage = i;
+            }
 
-            switch (i) {
-                //first page of splash
-                case 0: mNextBtn.setEnabled(true);
+            @Override
+            //method that changes layout of splash screen depending on the current page
+            public void onPageSelected(int i) {
+                addDotIndicator(i);
+                mCurrentPage = i;
+
+                switch (i) {
+                    //first page of splash
+                    case 0:
+                        mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(false);
                         mPrevBtn.setVisibility(View.INVISIBLE);
 
                         mNextBtn.setText("Next");
                         mPrevBtn.setText("");
+
+                        //resets the function of the next button
+                        mNextBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+                            }
+                        });
                         break;
-                //second page of splash
-                case 1: mNextBtn.setEnabled(true);
+                    //second page of splash (oauthentication)
+                    case 1:
+                        mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(true);
                         mPrevBtn.setVisibility(View.VISIBLE);
 
                         mNextBtn.setText("Connect");
                         mPrevBtn.setText("Back");
+
+                        //opens OAuth dialog
+                        mNextBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+                            }
+                        });
                         break;
-                //third page of splash
-                case 2:
+                    //third page of splash (osrs name adding)
+                    case 2:
                         mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(true);
                         mPrevBtn.setVisibility(View.VISIBLE);
@@ -128,38 +148,38 @@ public class splash extends AppCompatActivity {
 
                         //makes the next button open the add osrs name dialog
                         mNextBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                            @Override
+                            public void onClick(View v) {
                                 osrsNameDialog osrsNameDialog = new osrsNameDialog();
                                 osrsNameDialog.show(getSupportFragmentManager(), "osrs dialog");
                             }
                         });
                         break;
-                //last page of splash
-                case 3:
-                    accounts accounts1 = new accounts();
-                    if (accounts1.checkName()) {
-                        mNextBtn.setEnabled(true);
-                        mPrevBtn.setEnabled(true);
-                        mNextBtn.setVisibility(View.VISIBLE);
+                    //last page of splash (links to main activity)
+                    case 3: accounts accounts = new accounts();
 
-                        mNextBtn.setText("Begin");
-                        mPrevBtn.setText("Back");
+                        if (accounts.initialOsrsName != null) {
+                            mNextBtn.setEnabled(true);
+                            mPrevBtn.setEnabled(true);
+                            mNextBtn.setVisibility(View.VISIBLE);
 
-                        //makes begin button link to main activity
-                        mNextBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(splash.this, MainActivity.class));
-                            }
-                        });
-                    } else {
-                        mSlideViewPager.setCurrentItem(mCurrentPage - 1);
-                    }
+                            mNextBtn.setText("Begin");
+                            mPrevBtn.setText("Back");
 
-                    break;
-                //in case something goes wrong
-                default:
+                            //makes begin button link to main activity
+                            mNextBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(splash.this, MainActivity.class));
+                                }
+                            });
+                        } else if (accounts.initialOsrsName == null) {
+                            mSlideViewPager.setCurrentItem(mCurrentPage - 1);
+                        }
+
+                        break;
+                    //in case something goes wrong
+                    default:
                         mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(true);
                         mPrevBtn.setVisibility(View.VISIBLE);
@@ -167,7 +187,7 @@ public class splash extends AppCompatActivity {
                         mNextBtn.setText("Next");
                         mPrevBtn.setText("Back");
 
-                        //resets the function of the button
+                        //resets the function of the next button
                         mNextBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -176,14 +196,15 @@ public class splash extends AppCompatActivity {
                         });
                         break;
 
+                }
             }
-        }
 
-        //even though it's empty, don't delete it. its needed for some reason
-        @Override
-        public void onPageScrollStateChanged(int i) {
+            //even though it's empty, don't delete it. its needed for some reason
+            @Override
+            public void onPageScrollStateChanged(int i) {
 
-        }
+            }
 
-    };
+        };
+    }
 }

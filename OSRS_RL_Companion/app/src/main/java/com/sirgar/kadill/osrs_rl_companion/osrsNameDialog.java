@@ -11,11 +11,10 @@ import android.widget.EditText;
 
 public class osrsNameDialog extends AppCompatDialogFragment {
     private EditText editTextUsername;
-    public String loginName;
-    accounts accounts = new accounts();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String loginName;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.osrs_name_dialog_layout, null);
@@ -31,14 +30,13 @@ public class osrsNameDialog extends AppCompatDialogFragment {
             .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //accounts.getOsrsName(editTextUsername.getText().toString());
                     String loginName = editTextUsername.getText().toString();
-                    accounts.getOsrsName(loginName);
+                    //saves login name input into the accounts class
+                    accounts.initialOsrsName = loginName;
                 }
             });
             editTextUsername = view.findViewById(R.id.usernameField);
 
             return builder.create();
     }
-
 }
