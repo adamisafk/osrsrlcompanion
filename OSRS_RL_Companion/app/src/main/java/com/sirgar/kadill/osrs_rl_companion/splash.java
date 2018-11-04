@@ -1,12 +1,14 @@
 package com.sirgar.kadill.osrs_rl_companion;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ public class splash extends AppCompatActivity {
 
     private Button mNextBtn;
     private Button mPrevBtn;
+    private ImageView iconCheck;
+    private ImageView iconCross;
     private int mCurrentPage;
 
     @Override
@@ -34,6 +38,9 @@ public class splash extends AppCompatActivity {
 
         mNextBtn = (Button) findViewById(R.id.nextBtn);
         mPrevBtn = (Button) findViewById(R.id.prevBtn);
+
+        iconCheck = (ImageView) findViewById(R.id.iconCheck);
+        iconCross = (ImageView) findViewById(R.id.iconCross);
 
         sliderAdapter = new SliderAdapter(this); //initialize SliderAdapter.java
         mSlideViewPager.setAdapter(sliderAdapter);
@@ -125,36 +132,47 @@ public class splash extends AppCompatActivity {
                         mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(true);
                         mPrevBtn.setVisibility(View.VISIBLE);
+                        iconCross.setVisibility(View.VISIBLE);
 
-                        mNextBtn.setText("Connect");
+                        mNextBtn.setText("Continue");
                         mPrevBtn.setText("Back");
 
                         //opens OAuth dialog
                         mNextBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+                                rlAuthDialog rlAuthDialog = new rlAuthDialog();
+                                rlAuthDialog.show(getSupportFragmentManager(), "oauth dialog");
                             }
                         });
                         break;
                     //third page of splash (osrs name adding)
                     case 2:
-                        mNextBtn.setEnabled(true);
-                        mPrevBtn.setEnabled(true);
-                        mPrevBtn.setVisibility(View.VISIBLE);
+                            mNextBtn.setEnabled(true);
+                            mPrevBtn.setEnabled(true);
+                            mPrevBtn.setVisibility(View.VISIBLE);
+                            mPrevBtn.setText("Back");
+                            iconCross.setVisibility(View.VISIBLE);
 
-                        mNextBtn.setText("Add Account");
-                        mPrevBtn.setText("Back");
+                            //if accounts has not been entered, make button say add accounts and set
+                            //listener to next slide
+                            mNextBtn.setText("Continue");
+                            //makes the next button open the add osrs name dialog or next slide
+                            mNextBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (accounts.initialOsrsName == null) {
+                                        osrsNameDialog osrsNameDialog = new osrsNameDialog();
+                                        osrsNameDialog.show(getSupportFragmentManager(), "osrs dialog");
+                                    } else {
+                                        mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+                                        iconCheck.setVisibility(View.VISIBLE);
+                                        iconCross.setVisibility(View.INVISIBLE);
+                                    }
+                                }
+                            });
 
-                        //makes the next button open the add osrs name dialog
-                        mNextBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                osrsNameDialog osrsNameDialog = new osrsNameDialog();
-                                osrsNameDialog.show(getSupportFragmentManager(), "osrs dialog");
-                            }
-                        });
-                        break;
+                            break;
                     //last page of splash (links to main activity)
                     case 3: accounts accounts = new accounts();
 
@@ -171,9 +189,10 @@ public class splash extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     startActivity(new Intent(splash.this, MainActivity.class));
+                                    finish();
                                 }
                             });
-                        } else if (accounts.initialOsrsName == null) {
+                        } else {
                             mSlideViewPager.setCurrentItem(mCurrentPage - 1);
                         }
 
