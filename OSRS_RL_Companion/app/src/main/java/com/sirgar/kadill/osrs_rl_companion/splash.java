@@ -1,10 +1,9 @@
 package com.sirgar.kadill.osrs_rl_companion;
 
 import android.content.Intent;
-import android.media.Image;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 public class splash extends AppCompatActivity {
+    @SuppressWarnings("deprecation")
 
     //Variables
     private ViewPager mSlideViewPager;
@@ -75,7 +76,7 @@ public class splash extends AppCompatActivity {
         //This loop generates the corresponding no. of dots for each slide
         for(int i = 0; i < mDots.length; i++) {
             mDots[i] = new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226;")); //unicode for bullet symbol
+            mDots[i].setText(Html.fromHtml("&#8226;", Html.FROM_HTML_MODE_LEGACY)); //unicode for bullet symbol
             mDots[i].setTextSize(25); //sets size
             mDots[i].setTextColor(getResources().getColor(R.color.colorAccent)); //sets colour
 
