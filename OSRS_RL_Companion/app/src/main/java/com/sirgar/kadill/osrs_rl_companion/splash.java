@@ -25,8 +25,6 @@ public class splash extends AppCompatActivity {
 
     private Button mNextBtn;
     private Button mPrevBtn;
-    private ImageView iconCheck;
-    private ImageView iconCross;
     private int mCurrentPage;
 
     @Override
@@ -39,9 +37,6 @@ public class splash extends AppCompatActivity {
 
         mNextBtn = (Button) findViewById(R.id.nextBtn);
         mPrevBtn = (Button) findViewById(R.id.prevBtn);
-
-        iconCheck = (ImageView) findViewById(R.id.iconCheck);
-        iconCross = (ImageView) findViewById(R.id.iconCross);
 
         sliderAdapter = new SliderAdapter(this); //initialize SliderAdapter.java
         mSlideViewPager.setAdapter(sliderAdapter);
@@ -133,7 +128,6 @@ public class splash extends AppCompatActivity {
                         mNextBtn.setEnabled(true);
                         mPrevBtn.setEnabled(true);
                         mPrevBtn.setVisibility(View.VISIBLE);
-                        iconCross.setVisibility(View.VISIBLE);
 
                         mNextBtn.setText("Continue");
                         mPrevBtn.setText("Back");
@@ -153,12 +147,12 @@ public class splash extends AppCompatActivity {
                             mPrevBtn.setEnabled(true);
                             mPrevBtn.setVisibility(View.VISIBLE);
                             mPrevBtn.setText("Back");
-                            iconCross.setVisibility(View.VISIBLE);
 
                             //if accounts has not been entered, make button say add accounts and set
                             //listener to next slide
                             mNextBtn.setText("Continue");
                             //makes the next button open the add osrs name dialog or next slide
+
                             mNextBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -167,13 +161,10 @@ public class splash extends AppCompatActivity {
                                         osrsNameDialog.show(getSupportFragmentManager(), "osrs dialog");
                                     } else {
                                         mSlideViewPager.setCurrentItem(mCurrentPage + 1);
-                                        iconCheck.setVisibility(View.VISIBLE);
-                                        iconCross.setVisibility(View.INVISIBLE);
                                     }
                                 }
                             });
-
-                            break;
+                        break;
                     //last page of splash (links to main activity)
                     case 3: accounts accounts = new accounts();
 

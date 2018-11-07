@@ -24,9 +24,9 @@ public class SliderAdapter extends PagerAdapter {
     //add splash icons here
     public int[] slide_icons = {
             R.drawable.splashtitle,
-            R.drawable.splashtitle,
-            R.drawable.splashtitle,
-            R.drawable.splashtitle
+            R.drawable.runelite,
+            R.drawable.ic_user_circle_white,
+            R.drawable.ic_check_circle
     };
     //add headings here
     public String[] slide_headings = {
